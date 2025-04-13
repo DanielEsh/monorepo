@@ -155,6 +155,12 @@ importers:
         specifier: ^8.29.0
         version: 8.29.0(eslint@9.24.0)(typescript@5.8.2)
 
+  packages/prettier-config:
+    devDependencies:
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
+
   packages/typescript-config: {}
 
   packages/ui:
@@ -187,6 +193,9 @@ importers:
       eslint:
         specifier: ^9.24.0
         version: 9.24.0
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
       typescript:
         specifier: 5.8.2
         version: 5.8.2

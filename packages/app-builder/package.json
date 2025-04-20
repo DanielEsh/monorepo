@@ -1,0 +1,26 @@
+{
+  "name": "@repo/app-builder",
+  "version": "0.0.0",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "app-builder": "./dist/cli.js"
+  },
+  "private": true,
+  "exports": {
+    "./base": "./base.js"
+  },
+  "scripts": {
+    "build": "npm run build:compile",
+    "build:compile": "tsc -p tsconfig.production.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/yargs": "^17.0.33",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
+}

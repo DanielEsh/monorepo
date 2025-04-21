@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "app-builder dev"
+    "dev": "app-builder dev",
+    "test": "app-builder build"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",

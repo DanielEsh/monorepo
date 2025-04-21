@@ -13,11 +13,13 @@
   },
   "scripts": {
     "build": "npm run build:compile",
+    "watch": "tsc -p tsconfig.production.json --watch",
     "build:compile": "tsc -p tsconfig.production.json"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/yargs": "^17.0.33",
+    "chalk": "^4.1.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {

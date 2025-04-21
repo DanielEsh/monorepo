@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import * as path from 'node:path';
+import {logger} from './common/logger'
 
 export type CliArgs = Awaited<ReturnType<typeof createCli>>;
 
@@ -45,9 +46,14 @@ export function createCli(argv: string[]) {
                     choices: ['client', 'server'] as const,
                 }),
             handler: handlerP(
-                () => {
-                    console.log('Hello world')
-                }
+                getCommandHandler('dev', (args, cmd) => {
+                    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+                    cmd(args);
+                    // Return an empty promise to prevent handlerP from exiting early.
+                    // The development server shouldn't ever exit until the user directly
+                    // kills it so this is fine.
+                    return new Promise(() => {});
+                }),
             ),
         })
         .command({
@@ -83,18 +89,13 @@ function handlerP(fn: (args: yargs.Arguments) => void) {
 
 function getCommandHandler(
     command: string,
+    handler?: (args: any, cmd: (args: any) => void) => void,
 ): (argv: yargs.Arguments) => void {
     return async (argv) => {
-        // const config = await getProjectConfig(command, argv as CliArgs);
-        // logger.setVerbose(Boolean(config.verbose));
-        //
-        // const args = {...config, logger};
-        // const localCmd = resolveLocalCommand(command);
-        //
-        // logger.verbose(`running command: ${command}`);
-        // return handler ? handler(args, localCmd) : localCmd(args);
-
-        console.log('getCommandHandler', command);
+        console.log('getCommandHandler')
+        const localCmd = resolveLocalCommand(command);
+        logger.verbose(`running command: ${command}`);
+        return handler ? handler(argv, localCmd) : localCmd(argv);
     };
 }
 
@@ -117,9 +118,21 @@ function resolveLocalCommand(command: string): ((...args: Array<unknown>) => voi
         // return logger.panic(`Handler for command "${command}" is not a function.`);
 
         console.log('resolveLocalCommand', command);
-        return null
+
+        const cmdPath = path.resolve(__dirname, `commands/${command}`);
+        if (!cmdPath) return logger.panic(`There was a problem loading the ${command} command.`);
+
+        // Динамический импорт команды
+        const cmdModule = require(cmdPath);
+        const commandFn = cmdModule.__esModule ? cmdModule.default : cmdModule;
+
+        if (typeof commandFn !== 'function') {
+            throw new Error(`Handler for command "${command}" is not a function`);
+        }
+
+        return commandFn;
     } catch (err) {
         console.log('[resolveLocalCommand] error', err)
-        // return logger.panic(`There was a problem loading the "${command}" command.`, err);
+        return logger.panic(`There was a problem loading the "${command}" command.`, err);
     }
 }

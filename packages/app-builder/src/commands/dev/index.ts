@@ -1,46 +1,21 @@
 import { CliArgs } from '../../create-cli';
 import {logger} from "../../common/logger";
 import chalk from 'chalk';
-import {Mode} from "../../common/types";
+import {buildMode} from "../../common/types";
 import path from 'node:path';
-import { rspack, Configuration as RspackConfiguration } from '@rspack/core';
+import { rspack } from '@rspack/core';
 import { RspackDevServer, Configuration as DevServerOptions } from '@rspack/dev-server';
+import {rspackConfigFactory} from "../../common/rspack/config";
 
 export default async function dev(args: CliArgs) {
-    process.env.NODE_ENV = Mode.development;
+    process.env.NODE_ENV = buildMode.development;
     console.log(chalk.bgMagenta('\n running command: dev (test watch)'));
     console.log(chalk.bgHex('#184ea1')('Белый текст на фоне #184ea1'));
     console.log('Command arguments:', args);
 
-    const config: RspackConfiguration = {
-        mode: 'development',
-        entry: path.resolve(process.cwd(), 'src/index.tsx'),
-        output: {
-            path: path.resolve(process.cwd(), 'dist'),
-            filename: 'bundle.js',
-            publicPath: '/build/',
-        },
-        infrastructureLogging: { level: 'error' },
-        module: {
-            rules: [
-                {
-                    test: /\.tsx?$/,
-                    loader: 'builtin:swc-loader',
-                    options: {
-                        jsc: {
-                            parser: { syntax: 'typescript', tsx: true },
-                            transform: { react: { runtime: 'automatic' } },
-                        },
-                    },
-                    type: 'javascript/auto',
-                },
-            ],
-        },
-        resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
-        },
-        // здесь можно добавить loaders/plugins...
-    };
+    const config = rspackConfigFactory({
+        buildMode: buildMode.development,
+    })
 
     const devServerOptions: DevServerOptions = {
         port: 3000,
@@ -52,7 +27,13 @@ export default async function dev(args: CliArgs) {
         },
         devMiddleware: {
             stats: 'errors-warnings',
-        }
+        },
+        host: '0.0.0.0',
+        allowedHosts: 'all',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        },
     };
 
     const compiler = rspack(config);
@@ -74,7 +55,9 @@ export default async function dev(args: CliArgs) {
 
     const server = new RspackDevServer(devServerOptions, compiler);
 
-    await server.start();
-
-
+    try {
+        await server.start();
+    } catch (e) {
+        logger.logError(`Cannot start rspack dev server`, e);
+    }
 }

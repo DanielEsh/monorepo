@@ -1,9 +1,17 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import {ExampleComponent} from "./example-component";
+import {ModulesComponent} from "./modules-component";
 
 // Функциональный компонент App
 const App = () => {
-    return <h1>Hello World2</h1>;
+    return (
+        <div>
+            <h1>Hello World2</h1>
+            <ExampleComponent />
+            <ModulesComponent />
+        </div>
+    );
 };
 
 // Монтируем React в #root

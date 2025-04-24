@@ -1,11 +1,28 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "esModuleInterop": true,
+    /* Target & Modules */
+    "target": "ESNext",                    // генерировать JS с последними фичами :contentReference[oaicite:11]{index=11}
+    "module": "ESNext",                    // использовать нативные ES-модули :contentReference[oaicite:12]{index=12}
+    "moduleResolution": "Bundler",         // разрешение модулей как у бандлера :contentReference[oaicite:13]{index=13}
+
+    /* JSX */
+    "jsx": "react-jsx",                    // новый JSX-трансформ, не требует React в импортах :contentReference[oaicite:14]{index=14}
+
+    /* Совместимость и интероп */
+    "esModuleInterop": true,               // позволяет `import fs from 'fs'`
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    /* Строгий режим */
+    "strict": true,                        // включает все строгие проверки :contentReference[oaicite:15]{index=15}
+
+    /* Путь компиляции и артефакты */
+    "noEmit": true,                        // только проверка типов, без генерации файлов
+    "resolveJsonModule": true,             // позволяет `import config from './config.json'`
+    "isolatedModules": true,               // каждый файл может компилироваться отдельно
+    "incremental": true,                   // поддержка инкрементальных сборок
+    "verbatimModuleSyntax": true           // не устранять не-type импорты автоматически :contentReference[oaicite:16]{index=16}
   },
+  "include": ["src"],
+  "references": []
 }

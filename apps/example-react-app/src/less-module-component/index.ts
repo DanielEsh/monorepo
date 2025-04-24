@@ -1,0 +1,1 @@
+export {LessModuleComponent} from './less-module-component'

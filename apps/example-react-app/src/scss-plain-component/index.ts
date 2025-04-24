@@ -1,0 +1,1 @@
+export {ScssPlainComponent} from './scss-plain-component'

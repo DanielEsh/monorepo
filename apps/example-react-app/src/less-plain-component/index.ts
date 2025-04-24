@@ -1,0 +1,1 @@
+export {LessPlainComponent} from './less-plain-component';

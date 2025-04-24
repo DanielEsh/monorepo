@@ -59,59 +59,59 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                     ],
                 },
                 // // Plain LESS
-                // {
-                //     test: /(?<!\.module)\.less$/i,
-                //     use: [
-                //         require.resolve('style-loader'),
-                //         require.resolve('css-loader'),
-                //         require.resolve('postcss-loader'),
-                //         require.resolve('less-loader'),
-                //     ],
-                // },
+                {
+                    test: /(?<!\.module)\.less$/i,
+                    use: [
+                        require.resolve('style-loader'),
+                        require.resolve('css-loader'),
+                        require.resolve('postcss-loader'),
+                        require.resolve('less-loader'),
+                    ],
+                },
                 // // LESS Modules
-                // {
-                //     test: /\.module\.less$/i,
-                //     use: [
-                //         require.resolve('style-loader'),
-                //         {
-                //             loader: require.resolve('css-loader'),
-                //             options: {
-                //                 modules: {
-                //                     localIdentName: '[name]__[local]--[hash:base64:5]',
-                //                 },
-                //             },
-                //         },
-                //         'postcss-loader',
-                //         'less-loader',
-                //     ],
-                // },
+                {
+                    test: /\.module\.less$/i,
+                    use: [
+                        require.resolve('style-loader'),
+                        {
+                            loader: require.resolve('css-loader'),
+                            options: {
+                                modules: {
+                                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                                },
+                            },
+                        },
+                        require.resolve('postcss-loader'),
+                        require.resolve('less-loader'),
+                    ],
+                },
                 // // Plain SASS/SCSS
-                // {
-                //     test: /(?<!\.module)\.s[ac]ss$/i,
-                //     use: [
-                //         'style-loader',
-                //         'css-loader',
-                //         'postcss-loader',
-                //         'sass-loader',
-                //     ],
-                // },
+                {
+                    test: /(?<!\.module)\.s[ac]ss$/i,
+                    use: [
+                        require.resolve('style-loader'),
+                        require.resolve('css-loader'),
+                        require.resolve('postcss-loader'),
+                        require.resolve('sass-loader'),
+                    ],
+                },
                 // // SASS/SCSS Modules
-                // {
-                //     test: /\.module\.s[ac]ss$/i,
-                //     use: [
-                //         'style-loader',
-                //         {
-                //             loader: 'css-loader',
-                //             options: {
-                //                 modules: {
-                //                     localIdentName: '[name]__[local]--[hash:base64:5]',
-                //                 },
-                //             },
-                //         },
-                //         'postcss-loader',
-                //         'sass-loader',
-                //     ],
-                // },
+                {
+                    test: /\.module\.s[ac]ss$/i,
+                    use: [
+                        require.resolve('style-loader'),
+                        {
+                            loader: require.resolve('css-loader'),
+                            options: {
+                                modules: {
+                                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                                },
+                            },
+                        },
+                        require.resolve('postcss-loader'),
+                        require.resolve('sass-loader'),
+                    ],
+                },
             ],
         },
         resolve: {

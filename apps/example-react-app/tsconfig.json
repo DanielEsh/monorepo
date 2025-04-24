@@ -23,6 +23,6 @@
     "incremental": true,                   // поддержка инкрементальных сборок
     "verbatimModuleSyntax": true           // не устранять не-type импорты автоматически :contentReference[oaicite:16]{index=16}
   },
-  "include": ["src"],
+  "include": ["src", "./global.d.ts"],
   "references": []
 }

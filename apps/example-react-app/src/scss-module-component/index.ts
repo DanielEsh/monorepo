@@ -1,0 +1,1 @@
+export {ScssModuleComponent} from './scss-module-component'

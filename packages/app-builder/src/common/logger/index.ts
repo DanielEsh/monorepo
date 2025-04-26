@@ -55,6 +55,13 @@ export class Logger implements BaseLogger {
     verbose = (...args: string[]) => {
         this.print(this.colors.dim(...args));
     };
+
+    status = (msg: string) => {
+        if (process.stdout.isTTY) {
+            this.clearLine();
+            this.print(msg);
+        }
+    };
 }
 
 export const logger = new Logger();

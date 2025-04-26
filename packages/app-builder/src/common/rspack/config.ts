@@ -1,6 +1,8 @@
-import type {Configuration, RuleSetUseItem} from '@rspack/core';
+import {Configuration, ProgressPlugin, RuleSetUseItem} from '@rspack/core';
 import type {BuildMode} from "../types";
 import * as path from 'node:path';
+import {createProgressPlugin} from "./progress-plugin";
+import {logger} from '../logger'
 
 type ClientFactoryOptions = {
     buildMode: BuildMode;
@@ -9,6 +11,10 @@ type ClientFactoryOptions = {
 };
 
 export function rspackConfigFactory(options: ClientFactoryOptions): Configuration {
+
+    const plugins = {
+        ProgressPlugin: createProgressPlugin(),
+    }
 
     const rsPackConfig: Configuration = {
         mode: options.buildMode,
@@ -114,6 +120,11 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 },
             ],
         },
+        plugins: [
+            new plugins.ProgressPlugin({
+                logger,
+            }),
+        ],
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],
         },

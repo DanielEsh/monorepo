@@ -1,4 +1,4 @@
-import {Configuration, ProgressPlugin, HtmlRspackPlugin, RuleSetUseItem} from '@rspack/core';
+import {Configuration, ProgressPlugin, HtmlRspackPlugin, CssExtractRspackPlugin, RuleSetUseItem} from '@rspack/core';
 import type {BuildMode} from "../types";
 import * as path from 'node:path';
 import {createProgressPlugin} from "./progress-plugin";
@@ -17,7 +17,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
     const isDevelopment = options.buildMode === "development";
 
     const cssExtractLoader = {
-        loader: MiniCssExtractPlugin.loader,
+        loader: CssExtractRspackPlugin.loader,
         options: { publicPath: '/build/' },
     };
 
@@ -58,7 +58,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /(?<!\.module)\.css$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         require.resolve('css-loader'),
                         require.resolve('postcss-loader'),
                     ],
@@ -67,7 +67,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /\.module\.css$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         {
                             loader: require.resolve('css-loader'),
                             options: {
@@ -82,7 +82,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /(?<!\.module)\.less$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         require.resolve('css-loader'),
                         require.resolve('postcss-loader'),
                         require.resolve('less-loader'),
@@ -92,7 +92,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /\.module\.less$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         {
                             loader: require.resolve('css-loader'),
                             options: {
@@ -109,7 +109,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /(?<!\.module)\.s[ac]ss$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         require.resolve('css-loader'),
                         require.resolve('postcss-loader'),
                         require.resolve('sass-loader'),
@@ -119,7 +119,7 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
                 {
                     test: /\.module\.s[ac]ss$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        getStylesLoader(),
                         {
                             loader: require.resolve('css-loader'),
                             options: {
@@ -137,6 +137,10 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
         plugins: [
             new plugins.ProgressPlugin({
                 logger,
+            }),
+            new CssExtractRspackPlugin({
+                filename: isProduction ? '[name].[contenthash].css' : '[name].css',
+                chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
             }),
             new HtmlRspackPlugin({
                 template: path.resolve(process.cwd(), 'public/index.html'),

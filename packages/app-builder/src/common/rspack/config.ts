@@ -1,8 +1,9 @@
-import {Configuration, ProgressPlugin, RuleSetUseItem} from '@rspack/core';
+import {Configuration, ProgressPlugin, HtmlRspackPlugin, RuleSetUseItem} from '@rspack/core';
 import type {BuildMode} from "../types";
 import * as path from 'node:path';
 import {createProgressPlugin} from "./progress-plugin";
 import {logger} from '../logger'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 type ClientFactoryOptions = {
     buildMode: BuildMode;
@@ -11,6 +12,19 @@ type ClientFactoryOptions = {
 };
 
 export function rspackConfigFactory(options: ClientFactoryOptions): Configuration {
+
+    const isProduction = options.buildMode === "production";
+    const isDevelopment = options.buildMode === "development";
+
+    const cssExtractLoader = {
+        loader: MiniCssExtractPlugin.loader,
+        options: { publicPath: '/build/' },
+    };
+
+    const getStylesLoader = () => {
+        if (isProduction) return cssExtractLoader
+        return require.resolve('style-loader')
+    }
 
     const plugins = {
         ProgressPlugin: createProgressPlugin(),
@@ -124,6 +138,11 @@ export function rspackConfigFactory(options: ClientFactoryOptions): Configuratio
             new plugins.ProgressPlugin({
                 logger,
             }),
+            new HtmlRspackPlugin({
+                template: path.resolve(process.cwd(), 'public/index.html'),
+                inject: 'body',
+                minify: isProduction,
+            })
         ],
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],

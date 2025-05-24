@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "app-builder dev",
-    "test": "app-builder build"
+    "build": "app-builder build"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",

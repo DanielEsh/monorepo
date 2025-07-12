@@ -1,0 +1,76 @@
+/* Checkbox.module.css */
+.root {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    /* Убираем стандартное выделение текста */
+    user-select: none;
+}
+
+.root[data-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/*
+  Визуально скрываем нативный инпут, но оставляем его в потоке
+  для скринридеров и навигации с клавиатуры.
+*/
+.input {
+    position: absolute;
+    opacity: 0;
+    width: 1.25em;
+    height: 1.25em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    cursor: pointer;
+}
+
+.indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #b0b8c4;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    position: relative;
+}
+
+/* Стили для разных состояний через data-атрибуты */
+.indicator[data-state='checked'] {
+    background-color: #007fff;
+    border-color: #007fff;
+}
+
+.indicator[data-state='indeterminate'] {
+    background-color: #007fff;
+    border-color: #007fff;
+}
+
+/* Стили при фокусе на нативном инпуте */
+.input:focus-visible + .indicator {
+    box-shadow: 0 0 0 3px rgba(0, 127, 255, 0.3);
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+.icon[data-visible='true'] {
+    opacity: 1;
+}
+
+.label {
+    margin-left: 8px;
+    color: #1c2025;
+}

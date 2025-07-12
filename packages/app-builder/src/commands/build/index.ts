@@ -3,13 +3,21 @@ import chalk from "chalk";
 import { rspackConfigFactory } from "../../common/rspack/config";
 import { logger } from "../../common/logger";
 import { rspack } from "@rspack/core";
+import path from "node:path";
+import {AppBuilderConfig} from "../../common/load-config";
 
 export default async function () {
     process.env.NODE_ENV = buildMode.production;
     console.log(chalk.bgHex('#184ea1')('BUILD #184ea1'));
 
+    // Загрузка конфигурации
+    const configPath = path.resolve(process.cwd(), 'app-builder.config.js');
+    const userConfigModule = await import(configPath);
+    const userConfig: AppBuilderConfig = userConfigModule.default;
+
     const config = rspackConfigFactory({
         buildMode: buildMode.production,
+        config: userConfig,
     });
 
     const compiler = rspack(config);

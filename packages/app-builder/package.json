@@ -9,7 +9,7 @@
   },
   "private": true,
   "exports": {
-    "./base": "./base.js"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "npm run build:compile",
@@ -25,6 +25,8 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "cosmiconfig": "^9.0.0",
+    "cosmiconfig-typescript-loader": "^6.1.0",
     "css-loader": "^7.1.2",
     "less": "^4.3.0",
     "less-loader": "^12.2.0",
@@ -33,6 +35,7 @@
     "sass": "^1.87.0",
     "sass-loader": "^16.0.5",
     "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.14",
     "yargs": "^17.7.2"
   }
 }

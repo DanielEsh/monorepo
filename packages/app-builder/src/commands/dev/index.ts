@@ -6,6 +6,8 @@ import path from 'node:path';
 import { rspack } from '@rspack/core';
 import { RspackDevServer, Configuration as DevServerOptions } from '@rspack/dev-server';
 import {rspackConfigFactory} from "../../common/rspack/config";
+import {loadEnv} from '../../common/env'
+import {AppBuilderConfig} from "../../common/load-config";
 
 export default async function dev(args: CliArgs) {
     process.env.NODE_ENV = buildMode.development;
@@ -13,12 +15,23 @@ export default async function dev(args: CliArgs) {
     console.log(chalk.bgHex('#184ea1')('Белый текст на фоне #184ea1'));
     console.log('Command arguments:', args);
 
+    const envVariables = loadEnv() as Record<string, any>
+    console.log('ENV', envVariables)
+
+    // Загрузка конфигурации
+    const configPath = path.resolve(process.cwd(), 'app-builder.config.js');
+    const userConfigModule = await import(configPath);
+    const userConfig: AppBuilderConfig = userConfigModule.default;
+
+    console.log('USER CONFIG', userConfig);
+
     const config = rspackConfigFactory({
         buildMode: buildMode.development,
+        config: userConfig,
     })
 
     const devServerOptions: DevServerOptions = {
-        port: 3000,
+        port: envVariables?.PORT || 3000,
         static: path.resolve(process.cwd(), 'public'),
         hot: true,
         client: {

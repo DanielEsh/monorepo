@@ -1,0 +1,23 @@
+/* Field.module.css */
+.root {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #3e5060;
+}
+
+.helperText {
+    font-size: 0.75rem;
+    margin-top: 6px;
+    color: #8c95a1;
+}
+
+.errorText {
+    color: #d32f2f;
+}

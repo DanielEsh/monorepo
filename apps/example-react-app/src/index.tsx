@@ -7,10 +7,15 @@ import {LessModuleComponent} from "./less-module-component";
 import {ScssPlainComponent} from "./scss-plain-component";
 import {ScssModuleComponent} from "./scss-module-component";
 
+
 // Функциональный компонент App
 const App = () => {
+
+    const test = import.meta.env.TEST;
+
     return (
         <div>
+            <div>TEST VAR = {test}</div>
             <h1>Hello World2</h1>
             <ExampleComponent />
             <ModulesComponent />

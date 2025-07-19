@@ -23,7 +23,7 @@
     content: '▼';
     position: absolute;
     right: 16px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 2s ease-in-out;
 }
 
 .trigger[aria-expanded='true']::after {
@@ -36,7 +36,7 @@
     display: grid;
     /* Изначально строка грида имеет нулевую высоту */
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.2s ease-in-out;
+    transition: grid-template-rows 2s ease-in-out;
     background-color: #f9f9f9;
     border-top: 1px solid transparent;
 }

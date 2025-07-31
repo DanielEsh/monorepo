@@ -9,6 +9,8 @@ import Textfield from "../textfield/textfield";
 import Intfield from "../intfield/intfield";
 import {ProjectForm} from "../form/ProjectForm";
 import {DimensionsForm} from "../form/DimensionsForm";
+import {Form} from "@repo/ui/form/form";
+import {TestForm} from "../modules/test-form/test-form";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -44,6 +46,7 @@ export default function Home() {
 
         <div style={{ width: '100%', maxWidth: '600px', margin: '2rem auto' }}>
             <h1>Формы с валидацией</h1>
+            <TestForm />
 
             <Collapse title="Форма 1: Данные проекта">
                 <div style={{ padding: '1rem' }}>

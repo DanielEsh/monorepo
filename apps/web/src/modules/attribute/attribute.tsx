@@ -1,17 +1,8 @@
 'use client'
-import type { InputHTMLAttributes } from 'react'
 import { z } from 'zod'
 
 import { Form, type FormSubmitHandler } from '../../shared/form'
-
-const Input = ({ id, ...props }: InputHTMLAttributes<HTMLInputElement>) => (
-  <input
-    id={id}
-    type="text"
-    {...props}
-    className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-  />
-)
+import { Button, Input } from '../../shared/components'
 
 const AttributeType = {
   String: 'string',
@@ -126,12 +117,12 @@ export const Attribute = () => {
           {(field) => <Input {...field} />}
         </Form.Field>
 
-        <button
+        <Button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="px-4 py-2"
         >
           Отправить
-        </button>
+        </Button>
       </Form>
     </div>
   )

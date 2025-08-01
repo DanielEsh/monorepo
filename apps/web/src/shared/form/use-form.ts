@@ -6,12 +6,6 @@ interface UseFormOptions {
   defaultValues: any
 }
 
-interface UseFormReturn {
-  control: any
-  errors: any
-  handleSubmit: any
-}
-
 export function useForm({ schema, defaultValues }: UseFormOptions) {
   const { control, formState, handleSubmit } = useReactHookForm({
     resolver: zodResolver(schema),

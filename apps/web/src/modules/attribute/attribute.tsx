@@ -1,10 +1,10 @@
 'use client'
+import type { InputHTMLAttributes } from 'react'
 import { z } from 'zod'
-import { Form } from '../../shared/form/form'
-import React from 'react'
-import { SubmitHandler } from 'react-hook-form'
 
-const Input = ({ id, ...props }: React.InputHTMLAttributes<HTMLInputElement>) => (
+import { Form, type FormSubmitHandler } from '../../shared/form'
+
+const Input = ({ id, ...props }: InputHTMLAttributes<HTMLInputElement>) => (
   <input
     id={id}
     type="text"
@@ -51,7 +51,7 @@ const attributeFormSchema = z.object({
 type AttributeFormValues = z.infer<typeof attributeFormSchema>
 
 export const Attribute = () => {
-  const handleSubmit: SubmitHandler<AttributeFormValues> = async (data) => {
+  const handleSubmit: FormSubmitHandler<AttributeFormValues> = async (data) => {
     console.log('Форма отправлена:', data)
     const res = await fetch('/api/attribute', {
       method: 'POST',

@@ -1,8 +1,8 @@
 'use client'
 import { z } from 'zod'
 
+import { Button, Checkbox, Input } from '../../shared/components'
 import { Form, type FormSubmitHandler } from '../../shared/form'
-import { Button, Input } from '../../shared/components'
 
 const AttributeType = {
   String: 'string',
@@ -37,6 +37,7 @@ const attributeFormSchema = z.object({
       message: 'Тип обязателен для выбора',
     }),
   description: z.string().max(500, 'Описание слишком длинное').optional(),
+  required: z.boolean().default(false).optional(),
 })
 
 type AttributeFormValues = z.infer<typeof attributeFormSchema>
@@ -64,6 +65,7 @@ export const Attribute = () => {
     label: '',
     type: undefined,
     description: '',
+    required: false,
   }
 
   return (
@@ -115,6 +117,21 @@ export const Attribute = () => {
           name="description"
         >
           {(field) => <Input {...field} />}
+        </Form.Field>
+
+        <Form.Field
+          label="Обязательное поле"
+          name="required"
+        >
+          {(field) => (
+            <Checkbox
+              {...field}
+              checked={field.value}
+              onChange={(e) => field.onChange(e.target.checked)}
+            >
+              Сделать обязательным
+            </Checkbox>
+          )}
         </Form.Field>
 
         <Button

@@ -13,6 +13,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@repo/ui": "workspace:*",
+    "@supabase/supabase-js": "^2.53.0",
     "@tailwindcss/postcss": "^4.1.11",
     "next": "^15.2.4",
     "postcss": "^8.5.6",

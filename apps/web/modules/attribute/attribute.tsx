@@ -23,8 +23,21 @@ const attributeFormSchema = z.object({
 type AttributeFormValues = z.infer<typeof attributeFormSchema>;
 
 export const Attribute = () => {
-    const handleSubmit: SubmitHandler<AttributeFormValues> = (data) => {
+    const handleSubmit: SubmitHandler<AttributeFormValues> = async (data) => {
         console.log("Форма отправлена:", data);
+        const res = await fetch("/api/attribute", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res.ok) {
+            const { error } = await res.json();
+            alert(`Ошибка: ${error}`);
+            return;
+        }
     };
 
     const defaultValues: AttributeFormValues = {

@@ -1,46 +1,43 @@
-import {forwardRef, FormHTMLAttributes, ReactNode} from 'react'
-import {
-    FormProvider,
-    type FieldValues as ReactHookFormFieldValues,
-    type SubmitHandler,
-    type UseFormReturn,
-} from 'react-hook-form'
-import { FormField } from './form-field'
+'use client'
+import React, {forwardRef, ReactNode} from "react";
+import {FormContext, FormContextProvider} from "./form.context";
+import {useForm} from "./use-form";
+import {FormField} from "./form-field";
+import {SubmitHandler} from "react-hook-form";
 
-export interface FormProps<FieldValues extends ReactHookFormFieldValues> {
-    className: string;
+export interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
+    schema: any;
+    defaultValues?: any;
     children: ReactNode
-    methods: UseFormReturn<FieldValues>
-    id?: string
-    onReset?: () => void
-    onSubmit: SubmitHandler<FieldValues>
+    onSubmit: SubmitHandler<any>;
 }
 
-const COMPONENT_NAME = 'Form'
+export const FormImpl = forwardRef<HTMLFormElement, FormProps>((props, ref) => {
+    const {schema, defaultValues, onSubmit, children} = props
 
-export const FormImpl = forwardRef<HTMLFormElement, FormProps<any>>(
-    (props, forwardedRef) => {
-        const { children, className, methods, onSubmit, onReset, ...restProps } =
-            props
+    const {control, errors, handleSubmit} = useForm({
+        schema,
+        defaultValues,
+    })
 
-        return (
-            <FormProvider {...methods}>
-                <form
-                    ref={forwardedRef}
-                    className={className}
-                    onReset={onReset}
-                    {...restProps}
-                >
-                    {children}
-                </form>
-        </FormProvider>
-    )
-    },
-)
+    const formContextValue: FormContext = {
+        control,
+        errors,
+    }
+
+    return (
+        <FormContextProvider value={formContextValue}>
+            <form ref={ref} onSubmit={handleSubmit(onSubmit)} >
+                {children}
+            </form>
+        </FormContextProvider>
+    );
+});
 
 export const Form = Object.assign(FormImpl, {
     Field: FormField,
 })
-Form.displayName = COMPONENT_NAME
+
+Form.displayName = 'Form'
 
 

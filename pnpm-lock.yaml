@@ -123,7 +123,7 @@ importers:
     dependencies:
       '@hookform/resolvers':
         specifier: ^5.1.1
-        version: 5.1.1(react-hook-form@7.60.0(react@19.1.0))
+        version: 5.1.1(react-hook-attribute@7.60.0(react@19.1.0))
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui

@@ -46,7 +46,13 @@ const FormField = ({ label, name, control, errors, children }: FormFieldProps) =
         <Controller
             name={name}
             control={control}
-            render={({ field }) => children(field)}
+            render={({ field }) => {
+                return (
+                    <>
+                        {children(field)}
+                    </>
+                )
+            }}
         />
         {errors[name] && (
             <p className="mt-1 text-sm text-red-600">{(errors[name] as any).message}</p>

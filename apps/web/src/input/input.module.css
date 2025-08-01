@@ -1,0 +1,40 @@
+/* Input.module.css */
+.input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 12px;
+  color: #1c2025;
+  background-color: #fff;
+  border: 1px solid #b0b8c4;
+  border-radius: 8px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-sizing: border-box; /* Важно для корректной ширины */
+}
+
+.input:hover {
+  border-color: #3399ff;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: #007fff;
+  box-shadow: 0 0 0 3px rgba(0, 127, 255, 0.3);
+}
+
+.input[data-disabled='true'] {
+  background-color: #f3f6f9;
+  color: #8c95a1;
+  border-color: #e5e8ec;
+  cursor: not-allowed;
+}
+
+.input[data-error='true'] {
+  border-color: #d32f2f;
+}
+
+.input[data-error='true']:focus-visible {
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.3);
+}

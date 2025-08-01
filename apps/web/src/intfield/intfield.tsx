@@ -1,23 +1,23 @@
 'use client'
 import React, { useId } from 'react'
-import Input from '../src/input/input'
+import Input from '../input/input'
 import fieldStyles from './textfield.module.css'
 
-type TextfieldProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'onChange'> & {
+type IntfieldProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'onChange' | 'type'> & {
   label?: string
   error?: boolean
   helperText?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void
 }
 
-const Textfield = React.forwardRef<HTMLInputElement, TextfieldProps>(
+const Intfield = React.forwardRef<HTMLInputElement, IntfieldProps>(
   ({ label, error, helperText, onChange, ...props }, ref) => {
     const id = useId()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // Удаляем все цифры из значения
-      const filteredValue = e.target.value.replace(/[0-9]/g, '')
-      e.target.value = filteredValue // Модифицируем событие "на лету"
+      // Оставляем только цифры
+      const filteredValue = e.target.value.replace(/[^0-9]/g, '')
+      e.target.value = filteredValue
 
       if (onChange) {
         onChange(e, filteredValue)
@@ -39,6 +39,9 @@ const Textfield = React.forwardRef<HTMLInputElement, TextfieldProps>(
           ref={ref}
           error={error}
           onChange={handleChange}
+          // Для мобильных устройств добавим правильную клавиатуру
+          inputMode="numeric"
+          pattern="[0-9]*"
           {...props}
         />
         {helperText && (
@@ -49,4 +52,4 @@ const Textfield = React.forwardRef<HTMLInputElement, TextfieldProps>(
   },
 )
 
-export default Textfield
+export default Intfield

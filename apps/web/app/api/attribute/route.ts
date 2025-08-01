@@ -30,14 +30,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const body = await req.json();
 
-    const result = schema.safeParse(body);
-    if (!result.success) {
-        return NextResponse.json({ error: "Некорректные данные" }, { status: 400 });
-    }
+    // const result = schema.safeParse(body);
+    // if (!result.success) {
+    //     return NextResponse.json({ error: "Некорректные данные" }, { status: 400 });
+    // }
 
-    const { name } = result.data;
+    const { name, label, type, description } = body;
 
-    const { error } = await supabaseServer.from("attributes").insert({ name });
+    const { error } = await supabaseServer.from("attributes").insert({ name, label, type, description });
 
     if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
